@@ -16,7 +16,7 @@
       {% endif %}
       {% endwith %}
       <div class="card card-body">
-        <form action="{{url_for('contacts.add_contact')}}" method="POST">
+        <form action="{{url_for('contacts.add_contact_web')}}" method="POST">
           <div class="form-group">
             <input type="text" class="form-control" name="fullname" placeholder="FullName" required>
           </div>
@@ -31,10 +31,10 @@
       </div>
 
       <div class="mt-3">
-        <a href="{{ url_for('contacts.favorites') }}" class="btn btn-info btn-block">View Favorites</a>
+        <a href="{{ url_for('contacts.favorites') }}" class="btn btn-info">View Favorite Contacts</a>
       </div>
-    </div>
 
+    </div>
     <div class="col-md-7">
       <table class="table table-striped table-hover table-bordered table-sm bg-white">
         <thead>
@@ -58,19 +58,19 @@
             
             <td>
               {% if contact.is_favorite %}
-                <form action="{{ url_for('contacts.unfavorite_contact', id=contact.id) }}" method="POST" style="display:inline;">
+                <form action="{{ url_for('contacts.unfavorite_contact_web', id=contact.id) }}" method="POST" style="display:inline;">
                   <button type="submit" class="btn btn-warning btn-sm">Unfavorite</button>
                 </form>
               {% else %}
-                <form action="{{ url_for('contacts.favorite_contact', id=contact.id) }}" method="POST" style="display:inline;">
+                <form action="{{ url_for('contacts.favorite_contact_web', id=contact.id) }}" method="POST" style="display:inline;">
                   <button type="submit" class="btn btn-outline-warning btn-sm">Favorite</button>
                 </form>
               {% endif %}
             </td>
             <td>{{ contact.notes }}</td>
             <td>
-              <a href="{{ url_for('contacts.get_contact', id=contact.id) }}" class="btn btn-secondary btn-sm">Edit</a>
-              <a href="{{ url_for('contacts.delete_contact', id=contact.id) }}" class="btn btn-danger btn-sm btn-delete">Delete</a>
+              <a href="{{ url_for('contacts.get_contact_web', id=contact.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+              <a href="{{ url_for('contacts.delete_contact_web', id=contact.id) }}" class="btn btn-danger btn-sm btn-delete">Delete</a>
             </td>
           </tr>
           {% endfor %}
@@ -78,6 +78,5 @@
       </table>
     </div>
   </div>
-</div>
 
 {% endblock %}

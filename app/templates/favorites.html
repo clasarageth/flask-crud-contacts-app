@@ -23,11 +23,11 @@
           <td>{{ contact.email }}</td>
           <td>{{ contact.phone }}</td>
           <td>
-            <a href="/edit/{{ contact.id }}" class="btn btn-secondary btn-sm">Edit</a>
-            <form action="{{ url_for('contacts.unfavorite_contact', id=contact.id) }}" method="POST" style="display:inline;">
+            <a href="{{ url_for('contacts.get_contact_web', id=contact.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+            <form action="{{ url_for('contacts.unfavorite_contact_web', id=contact.id) }}" method="POST" style="display:inline;">
               <button type="submit" class="btn btn-warning btn-sm">Remove Favorite</button>
             </form>
-            <a href="/delete/{{ contact.id }}" class="btn btn-danger btn-sm btn-delete">Delete</a>
+            <a href="{{ url_for('contacts.delete_contact_web', id=contact.id) }}" class="btn btn-danger btn-sm btn-delete">Delete</a>
           </td>
         </tr>
         {% else %}
