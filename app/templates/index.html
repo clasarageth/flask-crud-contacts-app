@@ -30,7 +30,6 @@
         </form>
       </div>
 
-      <!-- Link to Favorites page -->
       <div class="mt-3">
         <a href="{{ url_for('contacts.favorites') }}" class="btn btn-info btn-block">View Favorites</a>
       </div>
@@ -45,6 +44,7 @@
             <td>Email</td>
             <td>Phone</td>
             <td>Favorite</td>
+            <td>Notes</td>
             <td>Operations</td>
           </tr>
         </thead>
@@ -55,6 +55,7 @@
             <td>{{ contact.fullname }}</td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.phone }}</td>
+            
             <td>
               {% if contact.is_favorite %}
                 <form action="{{ url_for('contacts.unfavorite_contact', id=contact.id) }}" method="POST" style="display:inline;">
@@ -66,6 +67,7 @@
                 </form>
               {% endif %}
             </td>
+            <td>{{ contact.notes }}</td>
             <td>
               <a href="{{ url_for('contacts.get_contact', id=contact.id) }}" class="btn btn-secondary btn-sm">Edit</a>
               <a href="{{ url_for('contacts.delete_contact', id=contact.id) }}" class="btn btn-danger btn-sm btn-delete">Delete</a>

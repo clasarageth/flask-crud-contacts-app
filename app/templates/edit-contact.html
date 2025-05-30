@@ -1,27 +1,33 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      <div class="card card-body">
-        <form action="/update/{{contact.id}}" method="POST">
-          <div class="form-group">
-            <input type="text" name="fullname" value="{{contact.fullname}}" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" name="phone" value="{{contact.phone}}" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" name="email" value="{{contact.email}}" class="form-control">
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">
-              Update
-            </button>
-          </div>
-        </form>
-      </div>
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <div class="card card-body">
+      <form action="/update/{{ contact.id }}" method="POST">
+        <div class="form-group">
+          <input type="text" name="fullname" value="{{ contact.fullname }}" class="form-control" placeholder="Full Name" required>
+        </div>
+        <div class="form-group">
+          <input type="text" name="phone" value="{{ contact.phone }}" class="form-control" placeholder="Phone" required>
+        </div>
+        <div class="form-group">
+          <input type="text" name="email" value="{{ contact.email }}" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          <textarea name="notes" class="form-control" placeholder="Notes" rows="4">{{ contact.notes or '' }}</textarea>
+        </div>
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" id="is_favorite" name="is_favorite" value="1" {% if contact.is_favorite %}checked{% endif %}>
+          <label class="form-check-label" for="is_favorite">Favorite</label>
+        </div>
+        <div class="form-group d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{{ url_for('contacts.Index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
 {% endblock %}

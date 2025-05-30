@@ -7,7 +7,7 @@ contacts = Blueprint('contacts', __name__, template_folder='app/templates')
 @contacts.route('/')
 def Index():
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM contacts')
+    cur.execute('SELECT * FROM contacts') 
     data = cur.fetchall()
     cur.close()
     return render_template('index.html', contacts=data)
@@ -56,14 +56,18 @@ def update_contact(id):
         fullname = request.form['fullname']
         phone = request.form['phone']
         email = request.form['email']
+        notes = request.form.get('notes', '')  
+        is_favorite = 1 if request.form.get('is_favorite') == '1' else 0 
         cur = mysql.connection.cursor()
         cur.execute("""
             UPDATE contacts
             SET fullname = %s,
                 email = %s,
-                phone = %s
+                phone = %s,
+                notes = %s,             
+                is_favorite = %s        
             WHERE id = %s
-        """, (fullname, email, phone, id))
+        """, (fullname, email, phone, notes, is_favorite, id))  
         flash('Contact Updated Successfully')
         mysql.connection.commit()
         return redirect(url_for('contacts.Index'))
