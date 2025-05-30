@@ -13,6 +13,15 @@ def Index():
     return render_template('index.html', contacts=data)
 
 
+@contacts.route('/favorites')
+def favorites():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM contacts WHERE is_favorite = 1')
+    data = cur.fetchall()
+    cur.close()
+    return render_template('favorites.html', contacts=data)
+
+
 @contacts.route('/add_contact', methods=['POST'])
 def add_contact():
     if request.method == 'POST':
@@ -22,7 +31,8 @@ def add_contact():
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO contacts (fullname, phone, email) VALUES (%s,%s,%s)", (fullname, phone, email))
+                "INSERT INTO contacts (fullname, phone, email, is_favorite) VALUES (%s,%s,%s,0)",
+                (fullname, phone, email))
             mysql.connection.commit()
             flash('Contact Added successfully')
             return redirect(url_for('contacts.Index'))
@@ -34,10 +44,9 @@ def add_contact():
 @contacts.route('/edit/<id>', methods=['POST', 'GET'])
 def get_contact(id):
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM contacts WHERE id = %s', (id))
+    cur.execute('SELECT * FROM contacts WHERE id = %s', (id,))
     data = cur.fetchall()
     cur.close()
-    print(data[0])
     return render_template('edit-contact.html', contact=data[0])
 
 
@@ -63,7 +72,25 @@ def update_contact(id):
 @contacts.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete_contact(id):
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM contacts WHERE id = {0}'.format(id))
+    cur.execute('DELETE FROM contacts WHERE id = %s', (id,))
     mysql.connection.commit()
     flash('Contact Removed Successfully')
+    return redirect(url_for('contacts.Index'))
+
+
+@contacts.route('/favorite/<int:id>', methods=['POST'])
+def favorite_contact(id):
+    cur = mysql.connection.cursor()
+    cur.execute('UPDATE contacts SET is_favorite = 1 WHERE id = %s', (id,))
+    mysql.connection.commit()
+    flash('Contact added to favorites')
+    return redirect(url_for('contacts.Index'))
+
+
+@contacts.route('/unfavorite/<int:id>', methods=['POST'])
+def unfavorite_contact(id):
+    cur = mysql.connection.cursor()
+    cur.execute('UPDATE contacts SET is_favorite = 0 WHERE id = %s', (id,))
+    mysql.connection.commit()
+    flash('Contact removed from favorites')
     return redirect(url_for('contacts.Index'))
