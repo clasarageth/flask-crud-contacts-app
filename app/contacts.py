@@ -128,8 +128,8 @@ def api_get_favorite_contacts():
 
 @contacts.route('/api/contacts', methods=['POST'])
 def api_add_contact():
-    data = request.get_json()
-    if not data:
+    data = request.get_json(silent=True)
+    if data is None:
         return json_response({"message": "Invalid JSON"}, 400)
 
     fullname = data.get('fullname')
@@ -173,8 +173,8 @@ def api_get_contact(contact_id):
 
 @contacts.route('/api/contacts/<int:contact_id>', methods=['PUT'])
 def api_update_contact(contact_id):
-    data = request.get_json()
-    if not data:
+    data = request.get_json(silent=True)  
+    if data is None:
         return json_response({"message": "Invalid JSON"}, 400)
 
     fullname = data.get('fullname')
@@ -214,9 +214,12 @@ def api_update_contact(contact_id):
 
 @contacts.route('/api/contacts/<int:contact_id>', methods=['PATCH'])
 def api_partial_update_contact(contact_id):
-    data = request.get_json()
-    if not data:
+    data = request.get_json(silent=True)
+    if data is None:
         return json_response({"message": "Invalid JSON"}, 400)
+
+    if isinstance(data, dict) and not data:
+        return json_response({"message": "No fields to update"}, 400)
 
     try:
         cur = mysql.connection.cursor()
@@ -261,7 +264,6 @@ def api_partial_update_contact(contact_id):
     except Exception as e:
         return json_response({"message": str(e)}, 500)
 
-
 @contacts.route('/api/contacts/<int:contact_id>', methods=['DELETE'])
 def api_delete_contact(contact_id):
     try:
@@ -274,7 +276,7 @@ def api_delete_contact(contact_id):
         cur.execute('DELETE FROM contacts WHERE id = %s', (contact_id,))
         mysql.connection.commit()
         cur.close()
-        return json_response({"message": "Contact removed successfully"}, 204)
+        return json_response({"message": "Contact removed successfully"}, 200)
     except Exception as e:
         return json_response({"message": str(e)}, 500)
 
