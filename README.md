@@ -30,12 +30,12 @@ This project is a RESTful Contacts Management API built with Flask and MySQL. It
 - Add, view, update, and delete contact information
 - Store the following fields: full name, phone number, email (unique)
 
-### Notes feature
+### Notes feature (added feature)
 - Add notes to any contact
 - Edit or delete existing notes
 - Notes are included in all relevant API responses
 
-### Favorites feature
+### Favorites feature (added feature)
 - Mark or unmark contacts as favorites
 - Edit favorite status using `PUT` or `PATCH`
 - View favorite contacts
