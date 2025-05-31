@@ -202,8 +202,9 @@ class ApiRoutesTestCase(unittest.TestCase):
             cur.close()
 
         response = self.client.delete(f'/api/contacts/{delete_id}')
-        self.assertEqual(response.status_code, 204)
-        self.assertEqual(response.data, b'')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"message": "Contact removed successfully"})
+
 
         with app.app_context():
             cur = mysql.connection.cursor()
