@@ -1,3 +1,4 @@
+#original app
 # Screenshot
 
 ![](docs/screenshot.png)
@@ -20,6 +21,7 @@ python app/main.py
 * [ ] form validation
 * [ ] docker-compose
 
+#with changes
 # Contacts Management REST API
 
 This project is a RESTful Contacts Management API built with Flask and MySQL. It allows users to create, read, update, and delete contact records. Additional features include support for notes and a favorites system.
