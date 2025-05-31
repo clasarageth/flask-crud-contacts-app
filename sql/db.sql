@@ -1,6 +1,8 @@
-CREATE TABLE contacts(
+CREATE TABLE contacts (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   fullname VARCHAR(255),
   phone VARCHAR(255),
-  email VARCHAR(255) NOT NULL UNIQUE
+  email VARCHAR(255) NOT NULL UNIQUE,
+  notes TEXT,                
+  favorite BOOLEAN DEFAULT 0 
 );
